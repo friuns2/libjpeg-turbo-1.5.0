@@ -104,7 +104,7 @@ int ProcessSystemProperties(JNIEnv *env)
 JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_bufSize
 	(JNIEnv *env, jclass cls, jint width, jint height, jint jpegSubsamp)
 {
-	jint retval=(jint)tjBufSize(width, height, jpegSubsamp);
+	jint retval=(jint)tjBufSizeios(width, height, jpegSubsamp);
 	if(retval==-1) _throwarg(tjGetErrorStrios());
 
 	bailout:
@@ -173,7 +173,7 @@ JNIEXPORT void JNICALL Java_org_libjpegturbo_turbojpeg_TJCompressor_init
 	jfieldID fid;
 	tjhandle handle;
 
-	if((handle=tjInitCompress())==NULL)
+	if((handle=tjInitCompressios())==NULL)
 		_throwtj();
 
 	bailif0(cls=(*env)->GetObjectClass(env, obj));
@@ -206,7 +206,7 @@ static jint TJCompressor_compress
 	arraySize=(y+height-1)*actualPitch + (x+width)*tjPixelSize[pf];
 	if((*env)->GetArrayLength(env, src)*srcElementSize<arraySize)
 		_throwarg("Source buffer is not large enough");
-	jpegSize=tjBufSize(width, height, jpegSubsamp);
+	jpegSize=tjBufSizeios(width, height, jpegSubsamp);
 	if((*env)->GetArrayLength(env, dst)<(jsize)jpegSize)
 		_throwarg("Destination buffer is not large enough");
 
@@ -215,7 +215,7 @@ static jint TJCompressor_compress
 
 	if(ProcessSystemProperties(env)<0) goto bailout;
 
-	if(tjCompress2(handle, &srcBuf[y*actualPitch + x*tjPixelSize[pf]], width,
+	if(tjCompress2ios(handle, &srcBuf[y*actualPitch + x*tjPixelSize[pf]], width,
 		pitch, height, pf, &jpegBuf, &jpegSize, jpegSubsamp, jpegQual,
 		flags|TJFLAG_NOREALLOC)==-1)
 		_throwtj();
@@ -310,7 +310,7 @@ JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJCompressor_compressFrom
 	if((*env)->GetArrayLength(env, jSrcStrides)<nc)
 		_throwarg("Strides array is too small for the subsampling type");
 
-	jpegSize=tjBufSize(width, height, subsamp);
+	jpegSize=tjBufSizeios(width, height, subsamp);
 	if((*env)->GetArrayLength(env, dst)<(jsize)jpegSize)
 		_throwarg("Destination buffer is not large enough");
 
@@ -551,7 +551,7 @@ JNIEXPORT void JNICALL Java_org_libjpegturbo_turbojpeg_TJDecompressor_init
 	jfieldID fid;
 	tjhandle handle;
 
-	if((handle=tjInitDecompress())==NULL) _throwtj();
+	if((handle=tjInitDecompressios())==NULL) _throwtj();
 
 	bailif0(cls=(*env)->GetObjectClass(env, obj));
 	bailif0(fid=(*env)->GetFieldID(env, cls, "handle", "J"));
@@ -1117,7 +1117,7 @@ JNIEXPORT jintArray JNICALL Java_org_libjpegturbo_turbojpeg_TJTransformer_transf
 		if(t[i].r.h!=0) h=t[i].r.h;
 		bailif0(jdstBufs[i]=(*env)->GetObjectArrayElement(env, dstobjs, i));
 		if((unsigned long)(*env)->GetArrayLength(env, jdstBufs[i])
-			<tjBufSize(w, h, jpegSubsamp))
+			<tjBufSizeios(w, h, jpegSubsamp))
 			_throwarg("Destination buffer is not large enough");
 	}
 	bailif0(jpegBuf=(*env)->GetPrimitiveArrayCritical(env, jsrcBuf, 0));

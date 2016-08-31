@@ -122,8 +122,8 @@ int decomp(unsigned char *srcbuf, unsigned char **jpegbuf,
 		qualstr[5]=0;
 	}
 
-	if((handle=tjInitDecompress())==NULL)
-		_throwtj("executing tjInitDecompress()");
+	if((handle=tjInitDecompressios())==NULL)
+		_throwtj("executing tjInitDecompressios()");
 
 	if(dstbuf==NULL)
 	{
@@ -315,7 +315,7 @@ int fullTest(unsigned char *srcbuf, int w, int h, int subsamp, int jpegqual,
 		if((flags&TJFLAG_NOREALLOC)!=0)
 			for(i=0; i<ntilesw*ntilesh; i++)
 			{
-				if((jpegbuf[i]=(unsigned char *)tjAllocios(tjBufSize(tilew, tileh,
+				if((jpegbuf[i]=(unsigned char *)tjAllocios(tjBufSizeios(tilew, tileh,
 					subsamp)))==NULL)
 					_throwunix("allocating JPEG tiles");
 			}
@@ -326,8 +326,8 @@ int fullTest(unsigned char *srcbuf, int w, int h, int subsamp, int jpegqual,
 				(flags&TJFLAG_BOTTOMUP)? "BU":"TD", subNameLong[subsamp], jpegqual);
 		for(i=0; i<h; i++)
 			memcpy(&tmpbuf[pitch*i], &srcbuf[w*ps*i], w*ps);
-		if((handle=tjInitCompress())==NULL)
-			_throwtj("executing tjInitCompress()");
+		if((handle=tjInitCompressios())==NULL)
+			_throwtj("executing tjInitCompressios()");
 
 		if(doyuv)
 		{
@@ -365,9 +365,9 @@ int fullTest(unsigned char *srcbuf, int w, int h, int subsamp, int jpegqual,
 					}
 					else
 					{
-						if(tjCompress2(handle, srcptr2, width, pitch, height, pf,
+						if(tjCompress2ios(handle, srcptr2, width, pitch, height, pf,
 							&jpegbuf[tile], &jpegsize[tile], subsamp, jpegqual, flags)==-1)
-							_throwtj("executing tjCompress2()");
+							_throwtj("executing tjCompress2ios()");
 					}
 					totaljpegsize+=jpegsize[tile];
 				}
@@ -547,7 +547,7 @@ int decompTest(char *filename)
 		if((flags&TJFLAG_NOREALLOC)!=0 || !dotile)
 			for(i=0; i<ntilesw*ntilesh; i++)
 			{
-				if((jpegbuf[i]=(unsigned char *)tjAllocios(tjBufSize(tilew, tileh,
+				if((jpegbuf[i]=(unsigned char *)tjAllocios(tjBufSizeios(tilew, tileh,
 					subsamp)))==NULL)
 					_throwunix("allocating JPEG tiles");
 			}

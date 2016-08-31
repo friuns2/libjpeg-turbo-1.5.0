@@ -581,13 +581,13 @@ static tjhandle _tjInitCompress(tjinstance *this)
 	return (tjhandle)this;
 }
 
-DLLEXPORT tjhandle DLLCALL tjInitCompress(void)
+DLLEXPORT tjhandle DLLCALL tjInitCompressios(void)
 {
 	tjinstance *this=NULL;
 	if((this=(tjinstance *)malloc(sizeof(tjinstance)))==NULL)
 	{
 		snprintf(errStr, JMSG_LENGTH_MAX,
-			"tjInitCompress(): Memory allocation failure");
+			"tjInitCompressios(): Memory allocation failure");
 		return NULL;
 	}
 	MEMZERO(this, sizeof(tjinstance));
@@ -595,12 +595,12 @@ DLLEXPORT tjhandle DLLCALL tjInitCompress(void)
 }
 
 
-DLLEXPORT unsigned long DLLCALL tjBufSize(int width, int height,
+DLLEXPORT unsigned long DLLCALL tjBufSizeios(int width, int height,
 	int jpegSubsamp)
 {
 	unsigned long retval=0;  int mcuw, mcuh, chromasf;
 	if(width<1 || height<1 || jpegSubsamp<0 || jpegSubsamp>=NUMSUBOPT)
-		_throw("tjBufSize(): Invalid argument");
+		_throw("tjBufSizeios(): Invalid argument");
 
 	/* This allows for rare corner cases in which a JPEG image can actually be
 	   larger than the uncompressed input (we wouldn't mention it if it hadn't
@@ -730,7 +730,7 @@ DLLEXPORT unsigned long DLLCALL tjPlaneSizeYUV(int componentID, int width,
 }
 
 
-DLLEXPORT int DLLCALL tjCompress2(tjhandle handle, const unsigned char *srcBuf,
+DLLEXPORT int DLLCALL tjCompress2ios(tjhandle handle, const unsigned char *srcBuf,
 	int width, int pitch, int height, int pixelFormat, unsigned char **jpegBuf,
 	unsigned long *jpegSize, int jpegSubsamp, int jpegQual, int flags)
 {
@@ -741,12 +741,12 @@ DLLEXPORT int DLLCALL tjCompress2(tjhandle handle, const unsigned char *srcBuf,
 
 	getcinstance(handle)
 	if((this->init&COMPRESS)==0)
-		_throw("tjCompress2(): Instance has not been initialized for compression");
+		_throw("tjCompress2ios(): Instance has not been initialized for compression");
 
 	if(srcBuf==NULL || width<=0 || pitch<0 || height<=0 || pixelFormat<0
 		|| pixelFormat>=TJ_NUMPF || jpegBuf==NULL || jpegSize==NULL
 		|| jpegSubsamp<0 || jpegSubsamp>=NUMSUBOPT || jpegQual<0 || jpegQual>100)
-		_throw("tjCompress2(): Invalid argument");
+		_throw("tjCompress2ios(): Invalid argument");
 
 	if(setjmp(this->jerr.setjmp_buffer))
 	{
@@ -761,7 +761,7 @@ DLLEXPORT int DLLCALL tjCompress2(tjhandle handle, const unsigned char *srcBuf,
 	if(pixelFormat!=TJPF_GRAY && pixelFormat!=TJPF_CMYK)
 	{
 		rgbBuf=(unsigned char *)malloc(width*height*RGB_PIXELSIZE);
-		if(!rgbBuf) _throw("tjCompress2(): Memory allocation failure");
+		if(!rgbBuf) _throw("tjCompress2ios(): Memory allocation failure");
 		srcBuf=toRGB(srcBuf, width, pitch, height, pixelFormat, rgbBuf);
 		pitch=width*RGB_PIXELSIZE;
 	}
@@ -776,7 +776,7 @@ DLLEXPORT int DLLCALL tjCompress2(tjhandle handle, const unsigned char *srcBuf,
 
 	if(flags&TJFLAG_NOREALLOC)
 	{
-		alloc=0;  *jpegSize=tjBufSize(width, height, jpegSubsamp);
+		alloc=0;  *jpegSize=tjBufSizeios(width, height, jpegSubsamp);
 	}
 	jpeg_mem_dest_tj(cinfo, jpegBuf, jpegSize, alloc);
 	if(setCompDefaults(cinfo, pixelFormat, jpegSubsamp, jpegQual, flags)==-1)
@@ -784,7 +784,7 @@ DLLEXPORT int DLLCALL tjCompress2(tjhandle handle, const unsigned char *srcBuf,
 
 	jpeg_start_compress(cinfo, TRUE);
 	if((row_pointer=(JSAMPROW *)malloc(sizeof(JSAMPROW)*height))==NULL)
-		_throw("tjCompress2(): Memory allocation failure");
+		_throw("tjCompress2ios(): Memory allocation failure");
 	for(i=0; i<height; i++)
 	{
 		if(flags&TJFLAG_BOTTOMUP)
@@ -821,7 +821,7 @@ DLLEXPORT int DLLCALL tjCompress(tjhandle handle, unsigned char *srcBuf,
 	}
 	else
 	{
-		retval=tjCompress2(handle, srcBuf, width, pitch, height,
+		retval=tjCompress2ios(handle, srcBuf, width, pitch, height,
 			getPixelFormat(pixelSize, flags), &jpegBuf, &size, jpegSubsamp, jpegQual,
 			flags|TJFLAG_NOREALLOC);
 	}
@@ -1089,7 +1089,7 @@ DLLEXPORT int DLLCALL tjCompressFromYUVPlanes(tjhandle handle,
 
 	if(flags&TJFLAG_NOREALLOC)
 	{
-		alloc=0;  *jpegSize=tjBufSize(width, height, subsamp);
+		alloc=0;  *jpegSize=tjBufSizeios(width, height, subsamp);
 	}
 	jpeg_mem_dest_tj(cinfo, jpegBuf, jpegSize, alloc);
 	if(setCompDefaults(cinfo, TJPF_RGB, subsamp, jpegQual, flags)==-1)
@@ -1242,13 +1242,13 @@ static tjhandle _tjInitDecompress(tjinstance *this)
 	return (tjhandle)this;
 }
 
-DLLEXPORT tjhandle DLLCALL tjInitDecompress(void)
+DLLEXPORT tjhandle DLLCALL tjInitDecompressios(void)
 {
 	tjinstance *this;
 	if((this=(tjinstance *)malloc(sizeof(tjinstance)))==NULL)
 	{
 		snprintf(errStr, JMSG_LENGTH_MAX,
-			"tjInitDecompress(): Memory allocation failure");
+			"tjInitDecompressios(): Memory allocation failure");
 		return NULL;
 	}
 	MEMZERO(this, sizeof(tjinstance));
@@ -1306,7 +1306,7 @@ DLLEXPORT int DLLCALL tjDecompressHeader3(tjhandle handle,
 	return retval;
 }
 
-DLLEXPORT int DLLCALL tjDecompressHeader2(tjhandle handle,
+DLLEXPORT int DLLCALL tjDecompressHeader2ios(tjhandle handle,
 	unsigned char *jpegBuf, unsigned long jpegSize, int *width, int *height,
 	int *jpegSubsamp)
 {
@@ -1319,7 +1319,7 @@ DLLEXPORT int DLLCALL tjDecompressHeader(tjhandle handle,
 	unsigned char *jpegBuf, unsigned long jpegSize, int *width, int *height)
 {
 	int jpegSubsamp;
-	return tjDecompressHeader2(handle, jpegBuf, jpegSize, width, height,
+	return tjDecompressHeader2ios(handle, jpegBuf, jpegSize, width, height,
 		&jpegSubsamp);
 }
 
@@ -2073,7 +2073,7 @@ DLLEXPORT int DLLCALL tjTransform(tjhandle handle,
 		}
 		if(flags&TJFLAG_NOREALLOC)
 		{
-			alloc=0;  dstSizes[i]=tjBufSize(w, h, jpegSubsamp);
+			alloc=0;  dstSizes[i]=tjBufSizeios(w, h, jpegSubsamp);
 		}
 		if(!(t[i].options&TJXOPT_NOOUTPUT))
 			jpeg_mem_dest_tj(cinfo, &dstBufs[i], &dstSizes[i], alloc);

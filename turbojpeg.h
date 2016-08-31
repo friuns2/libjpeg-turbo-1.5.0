@@ -358,7 +358,7 @@ enum TJCS
  */
 #define TJFLAG_FASTUPSAMPLE  256
 /**
- * Disable buffer (re)allocation.  If passed to #tjCompress2() or
+ * Disable buffer (re)allocation.  If passed to #tjCompress2ios() or
  * #tjTransform(), this flag will cause those functions to generate an error if
  * the JPEG image buffer is invalid or too small rather than attempting to
  * allocate or reallocate that buffer.  This reproduces the behavior of earlier
@@ -610,7 +610,7 @@ extern "C" {
  * @return a handle to the newly-created instance, or NULL if an error
  * occurred (see #tjGetErrorStrios().)
  */
-DLLEXPORT tjhandle DLLCALL tjInitCompress(void);
+DLLEXPORT tjhandle DLLCALL tjInitCompressios(void);
 
 
 /**
@@ -644,7 +644,7 @@ DLLEXPORT tjhandle DLLCALL tjInitCompress(void);
  * -# set <tt>*jpegBuf</tt> to NULL to tell TurboJPEG to allocate the buffer
  * for you, or
  * -# pre-allocate the buffer to a "worst case" size determined by calling
- * #tjBufSize().  This should ensure that the buffer never has to be
+ * #tjBufSizeios().  This should ensure that the buffer never has to be
  * re-allocated (setting #TJFLAG_NOREALLOC guarantees this.)
  * .
  * If you choose option 1, <tt>*jpegSize</tt> should be set to the size of your
@@ -672,7 +672,7 @@ DLLEXPORT tjhandle DLLCALL tjInitCompress(void);
  *
  * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
 */
-DLLEXPORT int DLLCALL tjCompress2(tjhandle handle, const unsigned char *srcBuf,
+DLLEXPORT int DLLCALL tjCompress2ios(tjhandle handle, const unsigned char *srcBuf,
   int width, int pitch, int height, int pixelFormat, unsigned char **jpegBuf,
   unsigned long *jpegSize, int jpegSubsamp, int jpegQual, int flags);
 
@@ -712,7 +712,7 @@ DLLEXPORT int DLLCALL tjCompress2(tjhandle handle, const unsigned char *srcBuf,
  * -# set <tt>*jpegBuf</tt> to NULL to tell TurboJPEG to allocate the buffer
  * for you, or
  * -# pre-allocate the buffer to a "worst case" size determined by calling
- * #tjBufSize().  This should ensure that the buffer never has to be
+ * #tjBufSizeios().  This should ensure that the buffer never has to be
  * re-allocated (setting #TJFLAG_NOREALLOC guarantees this.)
  * .
  * If you choose option 1, <tt>*jpegSize</tt> should be set to the size of your
@@ -782,7 +782,7 @@ DLLEXPORT int DLLCALL tjCompressFromYUV(tjhandle handle,
  * -# set <tt>*jpegBuf</tt> to NULL to tell TurboJPEG to allocate the buffer
  * for you, or
  * -# pre-allocate the buffer to a "worst case" size determined by calling
- * #tjBufSize().  This should ensure that the buffer never has to be
+ * #tjBufSizeios().  This should ensure that the buffer never has to be
  * re-allocated (setting #TJFLAG_NOREALLOC guarantees this.)
  * .
  * If you choose option 1, <tt>*jpegSize</tt> should be set to the size of your
@@ -834,7 +834,7 @@ DLLEXPORT int DLLCALL tjCompressFromYUVPlanes(tjhandle handle,
  * @return the maximum size of the buffer (in bytes) required to hold the
  * image, or -1 if the arguments are out of bounds.
  */
-DLLEXPORT unsigned long DLLCALL tjBufSize(int width, int height,
+DLLEXPORT unsigned long DLLCALL tjBufSizeios(int width, int height,
   int jpegSubsamp);
 
 
@@ -1036,7 +1036,7 @@ DLLEXPORT int DLLCALL tjEncodeYUVPlanes(tjhandle handle,
  * @return a handle to the newly-created instance, or NULL if an error
  * occurred (see #tjGetErrorStrios().)
 */
-DLLEXPORT tjhandle DLLCALL tjInitDecompress(void);
+DLLEXPORT tjhandle DLLCALL tjInitDecompressios(void);
 
 
 /**
@@ -1392,7 +1392,7 @@ DLLEXPORT tjhandle DLLCALL tjInitTransform(void);
  * -# set <tt>dstBufs[i]</tt> to NULL to tell TurboJPEG to allocate the buffer
  * for you, or
  * -# pre-allocate the buffer to a "worst case" size determined by calling
- * #tjBufSize() with the transformed or cropped width and height.  This should
+ * #tjBufSizeios() with the transformed or cropped width and height.  This should
  * ensure that the buffer never has to be re-allocated (setting
  * #TJFLAG_NOREALLOC guarantees this.)
  * .
@@ -1435,7 +1435,7 @@ DLLEXPORT int DLLCALL tjDestroyios(tjhandle handle);
 
 /**
  * Allocate an image buffer for use with TurboJPEG.  You should always use
- * this function to allocate the JPEG destination buffer(s) for #tjCompress2()
+ * this function to allocate the JPEG destination buffer(s) for #tjCompress2ios()
  * and #tjTransform() unless you are disabling automatic buffer
  * (re)allocation (by setting #TJFLAG_NOREALLOC.)
  *
@@ -1452,7 +1452,7 @@ DLLEXPORT unsigned char* DLLCALL tjAllocios(int bytes);
 /**
  * Free an image buffer previously allocated by TurboJPEG.  You should always
  * use this function to free JPEG destination buffer(s) that were automatically
- * (re)allocated by #tjCompress2() or #tjTransform() or that were manually
+ * (re)allocated by #tjCompress2ios() or #tjTransform() or that were manually
  * allocated using #tjAllocios().
  *
  * @param buffer address of the buffer to free
@@ -1518,7 +1518,7 @@ DLLEXPORT int DLLCALL tjEncodeYUV2(tjhandle handle,
 DLLEXPORT int DLLCALL tjDecompressHeader(tjhandle handle,
   unsigned char *jpegBuf, unsigned long jpegSize, int *width, int *height);
 
-DLLEXPORT int DLLCALL tjDecompressHeader2(tjhandle handle,
+DLLEXPORT int DLLCALL tjDecompressHeader2ios(tjhandle handle,
   unsigned char *jpegBuf, unsigned long jpegSize, int *width, int *height,
   int *jpegSubsamp);
 
