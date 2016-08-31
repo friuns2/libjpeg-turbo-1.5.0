@@ -1338,7 +1338,7 @@ DLLEXPORT tjscalingfactor* DLLCALL tjGetScalingFactors(int *numscalingfactors)
 }
 
 
-DLLEXPORT int DLLCALL tjDecompress2(tjhandle handle,
+DLLEXPORT int DLLCALL tjDecompress2ios(tjhandle handle,
 	const unsigned char *jpegBuf, unsigned long jpegSize, unsigned char *dstBuf,
 	int width, int pitch, int height, int pixelFormat, int flags)
 {
@@ -1351,11 +1351,11 @@ DLLEXPORT int DLLCALL tjDecompress2(tjhandle handle,
 
 	getdinstance(handle);
 	if((this->init&DECOMPRESS)==0)
-		_throw("tjDecompress2(): Instance has not been initialized for decompression");
+		_throw("tjDecompress2ios(): Instance has not been initialized for decompression");
 
 	if(jpegBuf==NULL || jpegSize<=0 || dstBuf==NULL || width<0 || pitch<0
 		|| height<0 || pixelFormat<0 || pixelFormat>=TJ_NUMPF)
-		_throw("tjDecompress2(): Invalid argument");
+		_throw("tjDecompress2ios(): Invalid argument");
 
 	if(flags&TJFLAG_FORCEMMX) putenv("JSIMD_FORCEMMX=1");
 	else if(flags&TJFLAG_FORCESSE) putenv("JSIMD_FORCESSE=1");
@@ -1388,7 +1388,7 @@ DLLEXPORT int DLLCALL tjDecompress2(tjhandle handle,
 			break;
 	}
 	if(i>=NUMSF)
-		_throw("tjDecompress2(): Could not scale down to desired image dimensions");
+		_throw("tjDecompress2ios(): Could not scale down to desired image dimensions");
 	width=scaledw;  height=scaledh;
 	dinfo->scale_num=sf[i].num;
 	dinfo->scale_denom=sf[i].denom;
@@ -1404,7 +1404,7 @@ DLLEXPORT int DLLCALL tjDecompress2(tjhandle handle,
 			RGB_PIXELSIZE!=tjPixelSize[pixelFormat]))
 	{
 		rgbBuf=(unsigned char *)malloc(width*height*3);
-		if(!rgbBuf) _throw("tjDecompress2(): Memory allocation failure");
+		if(!rgbBuf) _throw("tjDecompress2ios(): Memory allocation failure");
 		_pitch=pitch;  pitch=width*3;
 		_dstBuf=dstBuf;  dstBuf=rgbBuf;
 	}
@@ -1412,7 +1412,7 @@ DLLEXPORT int DLLCALL tjDecompress2(tjhandle handle,
 
 	if((row_pointer=(JSAMPROW *)malloc(sizeof(JSAMPROW)
 		*dinfo->output_height))==NULL)
-		_throw("tjDecompress2(): Memory allocation failure");
+		_throw("tjDecompress2ios(): Memory allocation failure");
 	for(i=0; i<(int)dinfo->output_height; i++)
 	{
 		if(flags&TJFLAG_BOTTOMUP)
@@ -1447,7 +1447,7 @@ DLLEXPORT int DLLCALL tjDecompress(tjhandle handle, unsigned char *jpegBuf,
 	if(flags&TJ_YUV)
 		return tjDecompressToYUV(handle, jpegBuf, jpegSize, dstBuf, flags);
 	else
-		return tjDecompress2(handle, jpegBuf, jpegSize, dstBuf, width, pitch,
+		return tjDecompress2ios(handle, jpegBuf, jpegSize, dstBuf, width, pitch,
 			height, getPixelFormat(pixelSize, flags), flags);
 }
 

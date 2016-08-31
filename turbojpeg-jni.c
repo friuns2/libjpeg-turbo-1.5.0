@@ -653,7 +653,7 @@ static void TJDecompressor_decompress
 	bailif0(jpegBuf=(*env)->GetPrimitiveArrayCritical(env, src, 0));
 	bailif0(dstBuf=(*env)->GetPrimitiveArrayCritical(env, dst, 0));
 
-	if(tjDecompress2(handle, jpegBuf, (unsigned long)jpegSize,
+	if(tjDecompress2ios(handle, jpegBuf, (unsigned long)jpegSize,
 		&dstBuf[y*actualPitch + x*tjPixelSize[pf]], width, pitch, height, pf,
 		flags)==-1)
 		_throwtj();

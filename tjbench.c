@@ -171,9 +171,9 @@ int decomp(unsigned char *srcbuf, unsigned char **jpegbuf,
 					if(iter>=0) elapsedDecode+=gettime()-startDecode;
 				}
 				else
-					if(tjDecompress2(handle, jpegbuf[tile], jpegsize[tile], dstptr2,
+					if(tjDecompress2ios(handle, jpegbuf[tile], jpegsize[tile], dstptr2,
 						width, pitch, height, pf, flags)==-1)
-						_throwtj("executing tjDecompress2()");
+						_throwtj("executing tjDecompress2ios()");
 			}
 		}
 		iter++;

@@ -505,7 +505,7 @@ void _decompTest(tjhandle handle, unsigned char *jpegBuf,
 		if(sf.num!=1 || sf.denom!=1)
 			printf("%d/%d ... ", sf.num, sf.denom);
 		else printf("... ");
-		_tj(tjDecompress2(handle, jpegBuf, jpegSize, dstBuf, scaledWidth, 0,
+		_tj(tjDecompress2ios(handle, jpegBuf, jpegSize, dstBuf, scaledWidth, 0,
 			scaledHeight, pf, flags));
 	}
 
