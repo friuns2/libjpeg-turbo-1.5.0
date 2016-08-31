@@ -54,7 +54,7 @@ void usage(char *progName)
 }
 
 
-#define _throwtj() {printf("TurboJPEG ERROR:\n%s\n", tjGetErrorStr());  \
+#define _throwtj() {printf("TurboJPEG ERROR:\n%s\n", tjGetErrorStrios());  \
 	bailout();}
 #define _tj(f) {if((f)==-1) _throwtj();}
 #define _throw(m) {printf("ERROR: %s\n", m);  bailout();}
@@ -423,7 +423,7 @@ void compTest(tjhandle handle, unsigned char **dstBuf,
 		printf("%s %s -> YUV %s ... ", pfStr, buStrLong, subNameLong[subsamp]);
 		_tj(tjEncodeYUV3(handle2, srcBuf, w, 0, h, pf, yuvBuf, pad, subsamp,
 			flags));
-		tjDestroy(handle2);
+		tjDestroyios(handle2);
 		if(checkBufYUV(yuvBuf, w, h, subsamp, sf)) printf("Passed.\n");
 		else printf("FAILED!\n");
 
@@ -496,7 +496,7 @@ void _decompTest(tjhandle handle, unsigned char *jpegBuf,
 			(flags&TJFLAG_BOTTOMUP)? "Bottom-Up":"Top-Down ");
 		_tj(tjDecodeYUV(handle2, yuvBuf, pad, subsamp, dstBuf, scaledWidth, 0,
 			scaledHeight, pf, flags));
-		tjDestroy(handle2);
+		tjDestroyios(handle2);
 	}
 	else
 	{
@@ -554,7 +554,7 @@ void doTest(int w, int h, const int *formats, int nformats, int subsamp,
 	if(!alloc)
 		size=tjBufSize(w, h, subsamp);
 	if(size!=0)
-		if((dstBuf=(unsigned char *)tjAlloc(size))==NULL)
+		if((dstBuf=(unsigned char *)tjAllocios(size))==NULL)
 			_throw("Memory allocation failure.");
 
 	if((chandle=tjInitCompress())==NULL || (dhandle=tjInitDecompress())==NULL)
@@ -586,10 +586,10 @@ void doTest(int w, int h, const int *formats, int nformats, int subsamp,
 	printf("--------------------\n\n");
 
 	bailout:
-	if(chandle) tjDestroy(chandle);
-	if(dhandle) tjDestroy(dhandle);
+	if(chandle) tjDestroyios(chandle);
+	if(dhandle) tjDestroyios(dhandle);
 
-	if(dstBuf) tjFree(dstBuf);
+	if(dstBuf) tjFreeios(dstBuf);
 }
 
 
@@ -617,7 +617,7 @@ void bufSizeTest(void)
 				{
 					if(doyuv) dstSize=tjBufSizeYUV2(w, pad, h, subsamp);
 					else dstSize=tjBufSize(w, h, subsamp);
-					if((dstBuf=(unsigned char *)tjAlloc(dstSize))==NULL)
+					if((dstBuf=(unsigned char *)tjAllocios(dstSize))==NULL)
 						_throw("Memory allocation failure");
 				}
 
@@ -640,7 +640,7 @@ void bufSizeTest(void)
 				free(srcBuf);  srcBuf=NULL;
 				if(!alloc || doyuv)
 				{
-					tjFree(dstBuf);  dstBuf=NULL;
+					tjFreeios(dstBuf);  dstBuf=NULL;
 				}
 
 				if((srcBuf=(unsigned char *)malloc(h*w*4))==NULL)
@@ -649,7 +649,7 @@ void bufSizeTest(void)
 				{
 					if(doyuv) dstSize=tjBufSizeYUV2(h, pad, w, subsamp);
 					else dstSize=tjBufSize(h, w, subsamp);
-					if((dstBuf=(unsigned char *)tjAlloc(dstSize))==NULL)
+					if((dstBuf=(unsigned char *)tjAllocios(dstSize))==NULL)
 						_throw("Memory allocation failure");
 				}
 
@@ -672,7 +672,7 @@ void bufSizeTest(void)
 				free(srcBuf);  srcBuf=NULL;
 				if(!alloc || doyuv)
 				{
-					tjFree(dstBuf);  dstBuf=NULL;
+					tjFreeios(dstBuf);  dstBuf=NULL;
 				}
 			}
 		}
@@ -681,8 +681,8 @@ void bufSizeTest(void)
 
 	bailout:
 	if(srcBuf) free(srcBuf);
-	if(dstBuf) tjFree(dstBuf);
-	if(handle) tjDestroy(handle);
+	if(dstBuf) tjFreeios(dstBuf);
+	if(handle) tjDestroyios(handle);
 }
 
 

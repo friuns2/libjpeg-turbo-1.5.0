@@ -608,7 +608,7 @@ extern "C" {
  * Create a TurboJPEG compressor instance.
  *
  * @return a handle to the newly-created instance, or NULL if an error
- * occurred (see #tjGetErrorStr().)
+ * occurred (see #tjGetErrorStrios().)
  */
 DLLEXPORT tjhandle DLLCALL tjInitCompress(void);
 
@@ -639,7 +639,7 @@ DLLEXPORT tjhandle DLLCALL tjInitCompress(void);
  * @param jpegBuf address of a pointer to an image buffer that will receive the
  * JPEG image.  TurboJPEG has the ability to reallocate the JPEG buffer
  * to accommodate the size of the JPEG image.  Thus, you can choose to:
- * -# pre-allocate the JPEG buffer with an arbitrary size using #tjAlloc() and
+ * -# pre-allocate the JPEG buffer with an arbitrary size using #tjAllocios() and
  * let TurboJPEG grow the buffer as needed,
  * -# set <tt>*jpegBuf</tt> to NULL to tell TurboJPEG to allocate the buffer
  * for you, or
@@ -670,7 +670,7 @@ DLLEXPORT tjhandle DLLCALL tjInitCompress(void);
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
 */
 DLLEXPORT int DLLCALL tjCompress2(tjhandle handle, const unsigned char *srcBuf,
   int width, int pitch, int height, int pixelFormat, unsigned char **jpegBuf,
@@ -707,7 +707,7 @@ DLLEXPORT int DLLCALL tjCompress2(tjhandle handle, const unsigned char *srcBuf,
  * @param jpegBuf address of a pointer to an image buffer that will receive the
  * JPEG image.  TurboJPEG has the ability to reallocate the JPEG buffer to
  * accommodate the size of the JPEG image.  Thus, you can choose to:
- * -# pre-allocate the JPEG buffer with an arbitrary size using #tjAlloc() and
+ * -# pre-allocate the JPEG buffer with an arbitrary size using #tjAllocios() and
  * let TurboJPEG grow the buffer as needed,
  * -# set <tt>*jpegBuf</tt> to NULL to tell TurboJPEG to allocate the buffer
  * for you, or
@@ -734,7 +734,7 @@ DLLEXPORT int DLLCALL tjCompress2(tjhandle handle, const unsigned char *srcBuf,
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
 */
 DLLEXPORT int DLLCALL tjCompressFromYUV(tjhandle handle,
   const unsigned char *srcBuf, int width, int pad, int height, int subsamp,
@@ -777,7 +777,7 @@ DLLEXPORT int DLLCALL tjCompressFromYUV(tjhandle handle,
  * @param jpegBuf address of a pointer to an image buffer that will receive the
  * JPEG image.  TurboJPEG has the ability to reallocate the JPEG buffer to
  * accommodate the size of the JPEG image.  Thus, you can choose to:
- * -# pre-allocate the JPEG buffer with an arbitrary size using #tjAlloc() and
+ * -# pre-allocate the JPEG buffer with an arbitrary size using #tjAllocios() and
  * let TurboJPEG grow the buffer as needed,
  * -# set <tt>*jpegBuf</tt> to NULL to tell TurboJPEG to allocate the buffer
  * for you, or
@@ -804,7 +804,7 @@ DLLEXPORT int DLLCALL tjCompressFromYUV(tjhandle handle,
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
 */
 DLLEXPORT int DLLCALL tjCompressFromYUVPlanes(tjhandle handle,
   const unsigned char **srcPlanes, int width, const int *strides, int height,
@@ -964,7 +964,7 @@ DLLEXPORT int tjPlaneHeight(int componentID, int height, int subsamp);
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
 */
 DLLEXPORT int DLLCALL tjEncodeYUV3(tjhandle handle,
   const unsigned char *srcBuf, int width, int pitch, int height,
@@ -1022,7 +1022,7 @@ DLLEXPORT int DLLCALL tjEncodeYUV3(tjhandle handle,
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
 */
 DLLEXPORT int DLLCALL tjEncodeYUVPlanes(tjhandle handle,
   const unsigned char *srcBuf, int width, int pitch, int height,
@@ -1034,7 +1034,7 @@ DLLEXPORT int DLLCALL tjEncodeYUVPlanes(tjhandle handle,
  * Create a TurboJPEG decompressor instance.
  *
  * @return a handle to the newly-created instance, or NULL if an error
- * occurred (see #tjGetErrorStr().)
+ * occurred (see #tjGetErrorStrios().)
 */
 DLLEXPORT tjhandle DLLCALL tjInitDecompress(void);
 
@@ -1062,7 +1062,7 @@ DLLEXPORT tjhandle DLLCALL tjInitDecompress(void);
  * of the JPEG colorspace constants, indicating the colorspace of the JPEG
  * image (see @ref TJCS "JPEG colorspaces".)
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
 */
 DLLEXPORT int DLLCALL tjDecompressHeader3(tjhandle handle,
   const unsigned char *jpegBuf, unsigned long jpegSize, int *width,
@@ -1077,7 +1077,7 @@ DLLEXPORT int DLLCALL tjDecompressHeader3(tjhandle handle,
  * the number of elements in the list
  *
  * @return a pointer to a list of fractional scaling factors, or NULL if an
- * error is encountered (see #tjGetErrorStr().)
+ * error is encountered (see #tjGetErrorStrios().)
 */
 DLLEXPORT tjscalingfactor* DLLCALL tjGetScalingFactors(int *numscalingfactors);
 
@@ -1129,7 +1129,7 @@ DLLEXPORT tjscalingfactor* DLLCALL tjGetScalingFactors(int *numscalingfactors);
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
  */
 DLLEXPORT int DLLCALL tjDecompress2ios(tjhandle handle,
   const unsigned char *jpegBuf, unsigned long jpegSize, unsigned char *dstBuf,
@@ -1179,7 +1179,7 @@ DLLEXPORT int DLLCALL tjDecompress2ios(tjhandle handle,
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
  */
 DLLEXPORT int DLLCALL tjDecompressToYUV2(tjhandle handle,
   const unsigned char *jpegBuf, unsigned long jpegSize, unsigned char *dstBuf,
@@ -1235,7 +1235,7 @@ DLLEXPORT int DLLCALL tjDecompressToYUV2(tjhandle handle,
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
  */
 DLLEXPORT int DLLCALL tjDecompressToYUVPlanes(tjhandle handle,
   const unsigned char *jpegBuf, unsigned long jpegSize,
@@ -1287,7 +1287,7 @@ DLLEXPORT int DLLCALL tjDecompressToYUVPlanes(tjhandle handle,
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
  */
 DLLEXPORT int DLLCALL tjDecodeYUV(tjhandle handle, const unsigned char *srcBuf,
   int pad, int subsamp, unsigned char *dstBuf, int width, int pitch,
@@ -1344,7 +1344,7 @@ DLLEXPORT int DLLCALL tjDecodeYUV(tjhandle handle, const unsigned char *srcBuf,
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
  */
 DLLEXPORT int DLLCALL tjDecodeYUVPlanes(tjhandle handle,
   const unsigned char **srcPlanes, const int *strides, int subsamp,
@@ -1356,7 +1356,7 @@ DLLEXPORT int DLLCALL tjDecodeYUVPlanes(tjhandle handle,
  * Create a new TurboJPEG transformer instance.
  *
  * @return a handle to the newly-created instance, or NULL if an error
- * occurred (see #tjGetErrorStr().)
+ * occurred (see #tjGetErrorStrios().)
  */
 DLLEXPORT tjhandle DLLCALL tjInitTransform(void);
 
@@ -1387,7 +1387,7 @@ DLLEXPORT tjhandle DLLCALL tjInitTransform(void);
  * will receive a JPEG image that has been transformed using the parameters in
  * <tt>transforms[i]</tt>.  TurboJPEG has the ability to reallocate the JPEG
  * buffer to accommodate the size of the JPEG image.  Thus, you can choose to:
- * -# pre-allocate the JPEG buffer with an arbitrary size using #tjAlloc() and
+ * -# pre-allocate the JPEG buffer with an arbitrary size using #tjAllocios() and
  * let TurboJPEG grow the buffer as needed,
  * -# set <tt>dstBufs[i]</tt> to NULL to tell TurboJPEG to allocate the buffer
  * for you, or
@@ -1414,7 +1414,7 @@ DLLEXPORT tjhandle DLLCALL tjInitTransform(void);
  * @param flags the bitwise OR of one or more of the @ref TJFLAG_BOTTOMUP
  * "flags"
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
  */
 DLLEXPORT int DLLCALL tjTransform(tjhandle handle,
   const unsigned char *jpegBuf, unsigned long jpegSize, int n,
@@ -1428,9 +1428,9 @@ DLLEXPORT int DLLCALL tjTransform(tjhandle handle,
  * @param handle a handle to a TurboJPEG compressor, decompressor or
  * transformer instance
  *
- * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStr().)
+ * @return 0 if successful, or -1 if an error occurred (see #tjGetErrorStrios().)
  */
-DLLEXPORT int DLLCALL tjDestroy(tjhandle handle);
+DLLEXPORT int DLLCALL tjDestroyios(tjhandle handle);
 
 
 /**
@@ -1444,22 +1444,22 @@ DLLEXPORT int DLLCALL tjDestroy(tjhandle handle);
  * @return a pointer to a newly-allocated buffer with the specified number of
  * bytes.
  *
- * @sa tjFree()
+ * @sa tjFreeios()
  */
-DLLEXPORT unsigned char* DLLCALL tjAlloc(int bytes);
+DLLEXPORT unsigned char* DLLCALL tjAllocios(int bytes);
 
 
 /**
  * Free an image buffer previously allocated by TurboJPEG.  You should always
  * use this function to free JPEG destination buffer(s) that were automatically
  * (re)allocated by #tjCompress2() or #tjTransform() or that were manually
- * allocated using #tjAlloc().
+ * allocated using #tjAllocios().
  *
  * @param buffer address of the buffer to free
  *
- * @sa tjAlloc()
+ * @sa tjAllocios()
  */
-DLLEXPORT void DLLCALL tjFree(unsigned char *buffer);
+DLLEXPORT void DLLCALL tjFreeios(unsigned char *buffer);
 
 
 /**
@@ -1467,7 +1467,7 @@ DLLEXPORT void DLLCALL tjFree(unsigned char *buffer);
  *
  * @return a descriptive error message explaining why the last command failed.
  */
-DLLEXPORT char* DLLCALL tjGetErrorStr(void);
+DLLEXPORT char* DLLCALL tjGetErrorStrios(void);
 
 
 /* Deprecated functions and macros */

@@ -42,7 +42,7 @@
 	printf("ERROR in line %d while %s:\n%s\n", __LINE__, op, err);  \
   retval=-1;  goto bailout;}
 #define _throwunix(m) _throw(m, strerror(errno))
-#define _throwtj(m) _throw(m, tjGetErrorStr())
+#define _throwtj(m) _throw(m, tjGetErrorStrios())
 #define _throwbmp(m) _throw(m, bmpgeterr())
 
 int flags=TJFLAG_NOREALLOC, componly=0, decomponly=0, doyuv=0, quiet=0,
@@ -185,7 +185,7 @@ int decomp(unsigned char *srcbuf, unsigned char **jpegbuf,
 	}
 	if(doyuv) elapsed-=elapsedDecode;
 
-	if(tjDestroy(handle)==-1) _throwtj("executing tjDestroy()");
+	if(tjDestroyios(handle)==-1) _throwtj("executing tjDestroyios()");
 	handle=NULL;
 
 	if(quiet)
@@ -269,7 +269,7 @@ int decomp(unsigned char *srcbuf, unsigned char **jpegbuf,
 
 	bailout:
 	if(file) fclose(file);
-	if(handle) tjDestroy(handle);
+	if(handle) tjDestroyios(handle);
 	if(dstbuf && dstbufalloc) free(dstbuf);
 	if(yuvbuf) free(yuvbuf);
 	return retval;
@@ -315,7 +315,7 @@ int fullTest(unsigned char *srcbuf, int w, int h, int subsamp, int jpegqual,
 		if((flags&TJFLAG_NOREALLOC)!=0)
 			for(i=0; i<ntilesw*ntilesh; i++)
 			{
-				if((jpegbuf[i]=(unsigned char *)tjAlloc(tjBufSize(tilew, tileh,
+				if((jpegbuf[i]=(unsigned char *)tjAllocios(tjBufSize(tilew, tileh,
 					subsamp)))==NULL)
 					_throwunix("allocating JPEG tiles");
 			}
@@ -381,7 +381,7 @@ int fullTest(unsigned char *srcbuf, int w, int h, int subsamp, int jpegqual,
 		}
 		if(doyuv) elapsed-=elapsedEncode;
 
-		if(tjDestroy(handle)==-1) _throwtj("executing tjDestroy()");
+		if(tjDestroyios(handle)==-1) _throwtj("executing tjDestroyios()");
 		handle=NULL;
 
 		if(quiet==1) printf("%-5d  %-5d   ", tilew, tileh);
@@ -447,7 +447,7 @@ int fullTest(unsigned char *srcbuf, int w, int h, int subsamp, int jpegqual,
 
 		for(i=0; i<ntilesw*ntilesh; i++)
 		{
-			if(jpegbuf[i]) tjFree(jpegbuf[i]);  jpegbuf[i]=NULL;
+			if(jpegbuf[i]) tjFreeios(jpegbuf[i]);  jpegbuf[i]=NULL;
 		}
 		free(jpegbuf);  jpegbuf=NULL;
 		free(jpegsize);  jpegsize=NULL;
@@ -465,14 +465,14 @@ int fullTest(unsigned char *srcbuf, int w, int h, int subsamp, int jpegqual,
 	{
 		for(i=0; i<ntilesw*ntilesh; i++)
 		{
-			if(jpegbuf[i]) tjFree(jpegbuf[i]);  jpegbuf[i]=NULL;
+			if(jpegbuf[i]) tjFreeios(jpegbuf[i]);  jpegbuf[i]=NULL;
 		}
 		free(jpegbuf);  jpegbuf=NULL;
 	}
 	if(yuvbuf) {free(yuvbuf);  yuvbuf=NULL;}
 	if(jpegsize) {free(jpegsize);  jpegsize=NULL;}
 	if(tmpbuf) {free(tmpbuf);  tmpbuf=NULL;}
-	if(handle) {tjDestroy(handle);  handle=NULL;}
+	if(handle) {tjDestroyios(handle);  handle=NULL;}
 	return retval;
 }
 
@@ -547,7 +547,7 @@ int decompTest(char *filename)
 		if((flags&TJFLAG_NOREALLOC)!=0 || !dotile)
 			for(i=0; i<ntilesw*ntilesh; i++)
 			{
-				if((jpegbuf[i]=(unsigned char *)tjAlloc(tjBufSize(tilew, tileh,
+				if((jpegbuf[i]=(unsigned char *)tjAllocios(tjBufSize(tilew, tileh,
 					subsamp)))==NULL)
 					_throwunix("allocating JPEG tiles");
 			}
@@ -613,7 +613,7 @@ int decompTest(char *filename)
 					t[tile].customFilter=customFilter;
 					if(t[tile].options&TJXOPT_NOOUTPUT && jpegbuf[tile])
 					{
-						tjFree(jpegbuf[tile]);  jpegbuf[tile]=NULL;
+						tjFreeios(jpegbuf[tile]);  jpegbuf[tile]=NULL;
 					}
 				}
 			}
@@ -678,7 +678,7 @@ int decompTest(char *filename)
 
 		for(i=0; i<ntilesw*ntilesh; i++)
 		{
-			tjFree(jpegbuf[i]);  jpegbuf[i]=NULL;
+			tjFreeios(jpegbuf[i]);  jpegbuf[i]=NULL;
 		}
 		free(jpegbuf);  jpegbuf=NULL;
 		if(jpegsize) {free(jpegsize);  jpegsize=NULL;}
@@ -692,14 +692,14 @@ int decompTest(char *filename)
 	{
 		for(i=0; i<ntilesw*ntilesh; i++)
 		{
-			if(jpegbuf[i]) tjFree(jpegbuf[i]);  jpegbuf[i]=NULL;
+			if(jpegbuf[i]) tjFreeios(jpegbuf[i]);  jpegbuf[i]=NULL;
 		}
 		free(jpegbuf);  jpegbuf=NULL;
 	}
 	if(jpegsize) {free(jpegsize);  jpegsize=NULL;}
 	if(srcbuf) {free(srcbuf);  srcbuf=NULL;}
 	if(t) {free(t);  t=NULL;}
-	if(handle) {tjDestroy(handle);  handle=NULL;}
+	if(handle) {tjDestroyios(handle);  handle=NULL;}
 	return retval;
 }
 

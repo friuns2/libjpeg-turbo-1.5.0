@@ -519,13 +519,13 @@ static void fromRGB(unsigned char *src, unsigned char *dst, int width,
 
 /* General API functions */
 
-DLLEXPORT char* DLLCALL tjGetErrorStr(void)
+DLLEXPORT char* DLLCALL tjGetErrorStrios(void)
 {
 	return errStr;
 }
 
 
-DLLEXPORT int DLLCALL tjDestroy(tjhandle handle)
+DLLEXPORT int DLLCALL tjDestroyios(tjhandle handle)
 {
 	getinstance(handle);
 	if(setjmp(this->jerr.setjmp_buffer)) return -1;
@@ -541,13 +541,13 @@ DLLEXPORT int DLLCALL tjDestroy(tjhandle handle)
    with turbojpeg.dll for compatibility reasons.  However, these functions
    can potentially be used for other purposes by different implementations. */
 
-DLLEXPORT void DLLCALL tjFree(unsigned char *buf)
+DLLEXPORT void DLLCALL tjFreeios(unsigned char *buf)
 {
 	if(buf) free(buf);
 }
 
 
-DLLEXPORT unsigned char *DLLCALL tjAlloc(int bytes)
+DLLEXPORT unsigned char *DLLCALL tjAllocios(int bytes)
 {
 	return (unsigned char *)malloc(bytes);
 }

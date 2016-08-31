@@ -46,7 +46,7 @@
 	goto bailout;  \
 }
 
-#define _throwtj() _throw(tjGetErrorStr(), "org/libjpegturbo/turbojpeg/TJException")
+#define _throwtj() _throw(tjGetErrorStrios(), "org/libjpegturbo/turbojpeg/TJException")
 
 #define _throwarg(msg) _throw(msg, "java/lang/IllegalArgumentException")
 
@@ -105,7 +105,7 @@ JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_bufSize
 	(JNIEnv *env, jclass cls, jint width, jint height, jint jpegSubsamp)
 {
 	jint retval=(jint)tjBufSize(width, height, jpegSubsamp);
-	if(retval==-1) _throwarg(tjGetErrorStr());
+	if(retval==-1) _throwarg(tjGetErrorStrios());
 
 	bailout:
 	return retval;
@@ -116,7 +116,7 @@ JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_bufSizeYUV__IIII
 	(JNIEnv *env, jclass cls, jint width, jint pad, jint height, jint subsamp)
 {
 	jint retval=(jint)tjBufSizeYUV2(width, pad, height, subsamp);
-	if(retval==-1) _throwarg(tjGetErrorStr());
+	if(retval==-1) _throwarg(tjGetErrorStrios());
 
 	bailout:
 	return retval;
@@ -137,7 +137,7 @@ JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_planeSizeYUV__IIIII
 {
 	jint retval=(jint)tjPlaneSizeYUV(componentID, width, stride, height,
 		subsamp);
-	if(retval==-1) _throwarg(tjGetErrorStr());
+	if(retval==-1) _throwarg(tjGetErrorStrios());
 
 	bailout:
 	return retval;
@@ -148,7 +148,7 @@ JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_planeWidth__III
 	(JNIEnv *env, jclass cls, jint componentID, jint width, jint subsamp)
 {
 	jint retval=(jint)tjPlaneWidth(componentID, width, subsamp);
-	if(retval==-1) _throwarg(tjGetErrorStr());
+	if(retval==-1) _throwarg(tjGetErrorStrios());
 
 	bailout:
 	return retval;
@@ -159,7 +159,7 @@ JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_planeHeight__III
 	(JNIEnv *env, jclass cls, jint componentID, jint height, jint subsamp)
 {
 	jint retval=(jint)tjPlaneHeight(componentID, height, subsamp);
-	if(retval==-1) _throwarg(tjGetErrorStr());
+	if(retval==-1) _throwarg(tjGetErrorStrios());
 
 	bailout:
 	return retval;
@@ -322,7 +322,7 @@ JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJCompressor_compressFrom
 		int pw=tjPlaneWidth(i, width, subsamp);
 
 		if(planeSize<0 || pw<0)
-			_throwarg(tjGetErrorStr());
+			_throwarg(tjGetErrorStrios());
 
 		if(srcOffsets[i]<0)
 			_throwarg("Invalid argument in compressFromYUV()");
@@ -401,7 +401,7 @@ static void TJCompressor_encodeYUV
 		int pw=tjPlaneWidth(i, width, subsamp);
 
 		if(planeSize<0 || pw<0)
-			_throwarg(tjGetErrorStr());
+			_throwarg(tjGetErrorStrios());
 
 		if(dstOffsets[i]<0)
 			_throwarg("Invalid argument in encodeYUV()");
@@ -536,7 +536,7 @@ JNIEXPORT void JNICALL Java_org_libjpegturbo_turbojpeg_TJCompressor_destroy
 
 	gethandle();
 
-	if(tjDestroy(handle)==-1) _throwtj();
+	if(tjDestroyios(handle)==-1) _throwtj();
 	(*env)->SetLongField(env, obj, _fid, 0);
 
 	bailout:
@@ -571,7 +571,7 @@ JNIEXPORT jobjectArray JNICALL Java_org_libjpegturbo_turbojpeg_TJ_getScalingFact
 	jobjectArray sfjava=NULL;
 
 	if((sf=tjGetScalingFactors(&n))==NULL || n==0)
-		_throwarg(tjGetErrorStr());
+		_throwarg(tjGetErrorStrios());
 
 	bailif0(sfcls=(*env)->FindClass(env, "org/libjpegturbo/turbojpeg/TJScalingFactor"));
 	bailif0(sfjava=(jobjectArray)(*env)->NewObjectArray(env, n, sfcls, 0));
@@ -750,7 +750,7 @@ JNIEXPORT void JNICALL Java_org_libjpegturbo_turbojpeg_TJDecompressor_decompress
 	if(height==0) height=jpegHeight;
 	sf=tjGetScalingFactors(&nsf);
 	if(!sf || nsf<1)
-		_throwarg(tjGetErrorStr());
+		_throwarg(tjGetErrorStrios());
 	for(i=0; i<nsf; i++)
 	{
 		scaledWidth=TJSCALED(jpegWidth, sf[i]);
@@ -770,7 +770,7 @@ JNIEXPORT void JNICALL Java_org_libjpegturbo_turbojpeg_TJDecompressor_decompress
 		int pw=tjPlaneWidth(i, scaledWidth, jpegSubsamp);
 
 		if(planeSize<0 || pw<0)
-			_throwarg(tjGetErrorStr());
+			_throwarg(tjGetErrorStrios());
 
 		if(dstOffsets[i]<0)
 			_throwarg("Invalid argument in decompressToYUV()");
@@ -884,7 +884,7 @@ static void TJDecompressor_decodeYUV
 		int pw=tjPlaneWidth(i, width, subsamp);
 
 		if(planeSize<0 || pw<0)
-			_throwarg(tjGetErrorStr());
+			_throwarg(tjGetErrorStrios());
 
 		if(srcOffsets[i]<0)
 			_throwarg("Invalid argument in decodeYUV()");
